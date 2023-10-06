@@ -16,11 +16,15 @@ public class DeliveryJobConfig {
     public Job createDeliveryJob(JobRepository jobRepository,
                                  @Qualifier("PackItemStep") Step packItemStep,
                                  @Qualifier("RouteToAddressStep") Step routeToAddressStep,
-                                 @Qualifier("DeliveryPackToAddressStep") Step deliveryPackToAddress) {
+                                 @Qualifier("DeliveryPackToAddressStep") Step deliveryPackToAddress,
+                                 @Qualifier("StorePackStep") Step storePackStep) {
         return new JobBuilder("DeliveryJob", jobRepository)
                 .start(packItemStep)
                 .next(routeToAddressStep)
-                .next(deliveryPackToAddress)
+                    .on("FAILED").to(storePackStep)
+                .from(routeToAddressStep)
+                    .on("*").to(deliveryPackToAddress)
+                .end()
                 .build();
     }
 
@@ -39,9 +43,16 @@ public class DeliveryJobConfig {
     }
 
     @Bean("DeliveryPackToAddressStep")
-    public Step createDeliveryPackToAddress(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
+    public Step createDeliveryPackToAddressStep(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
         return new StepBuilder("DeliveryPackToAddressStep", jobRepository)
                 .tasklet(new DeliveryPackToAddressTasklet(), transactionManager)
+                .build();
+    }
+
+    @Bean("StorePackStep")
+    public Step createStorePackStep(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
+        return new StepBuilder("StorePackStep", jobRepository)
+                .tasklet(new StorePackTasklet(), transactionManager)
                 .build();
     }
 }

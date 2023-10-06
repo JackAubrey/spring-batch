@@ -11,20 +11,13 @@ import java.time.LocalDate;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class RouteToAddressTasklet implements Tasklet {
-    private static final Logger logger = getLogger(RouteToAddressTasklet.class);
+public class StorePackTasklet implements Tasklet {
+    private static final Logger logger = getLogger(StorePackTasklet.class);
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         JobParameters parameters = contribution.getStepExecution().getJobParameters();
         String article = parameters.getString("input.article");
-        String custermPresent = parameters.getString("input.customer_present");
-
-        if("false".equalsIgnoreCase(custermPresent)) {
-            logger.error("SIMULATE customer is not present to take the article {} has been sent on date {}", article, LocalDate.now());
-            throw new RuntimeException("Nobody is in home");
-        } else {
-            logger.info("The article {} has been sent on date {}", article, LocalDate.now());
-            return RepeatStatus.FINISHED;
-        }
+        logger.error("The package {} on date {} has been returned to the main storage!!!", article, LocalDate.now());
+        return RepeatStatus.FINISHED;
     }
 }
