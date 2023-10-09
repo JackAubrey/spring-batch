@@ -7,17 +7,18 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 
+import java.time.LocalDate;
+
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class PackItemTasklet implements Tasklet {
-    private static final Logger logger = getLogger(PackItemTasklet.class);
+public class PlanAgainDeliveryTasklet implements Tasklet {
+    private static final Logger logger = getLogger(PlanAgainDeliveryTasklet.class);
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         JobParameters jobParameters = contribution.getStepExecution().getJobParameters();
         String article = jobParameters.getString("input.article");
-        String date = jobParameters.getString("input.date");
         String customerName = jobParameters.getString("input.customer.name");
-        logger.info("the product {} bought on {} is ready to be delivered to {}", article, date, customerName);
+        logger.error("The package {} for {} will be planned again early", article, customerName);
         return RepeatStatus.FINISHED;
     }
 }

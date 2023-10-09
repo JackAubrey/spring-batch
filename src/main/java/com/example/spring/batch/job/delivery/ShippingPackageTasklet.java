@@ -11,13 +11,14 @@ import java.time.LocalDate;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class DeliveryPackToAddressTasklet implements Tasklet {
-    private static final Logger logger = getLogger(DeliveryPackToAddressTasklet.class);
+public class ShippingPackageTasklet implements Tasklet {
+    private static final Logger logger = getLogger(ShippingPackageTasklet.class);
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-        JobParameters parameters = contribution.getStepExecution().getJobParameters();
-        String article = parameters.getString("input.article");
-        logger.info("The article {} has been delivered on date {}", article, LocalDate.now());
+        JobParameters jobParameters = contribution.getStepExecution().getJobParameters();
+        String article = jobParameters.getString("input.article");
+        String customerName = jobParameters.getString("input.customer.name");
+        logger.info("The article {} has been sent on date {} to {}", article, LocalDate.now(), customerName);
         return RepeatStatus.FINISHED;
     }
 }

@@ -15,9 +15,10 @@ public class StorePackTasklet implements Tasklet {
     private static final Logger logger = getLogger(StorePackTasklet.class);
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-        JobParameters parameters = contribution.getStepExecution().getJobParameters();
-        String article = parameters.getString("input.article");
-        logger.error("The package {} on date {} has been returned to the main storage!!!", article, LocalDate.now());
+        JobParameters jobParameters = contribution.getStepExecution().getJobParameters();
+        String article = jobParameters.getString("input.article");
+        String customerName = jobParameters.getString("input.customer.name");
+        logger.error("The package {} for {} has been returned to the main storage on date {}", article, customerName, LocalDate.now());
         return RepeatStatus.FINISHED;
     }
 }

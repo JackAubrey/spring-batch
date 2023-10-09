@@ -15,15 +15,18 @@ public class DeliveryJobConfig {
     @Bean
     public Job createDeliveryJob(JobRepository jobRepository,
                                  @Qualifier("PackItemStep") Step packItemStep,
-                                 @Qualifier("RouteToAddressStep") Step routeToAddressStep,
-                                 @Qualifier("DeliveryPackToAddressStep") Step deliveryPackToAddress,
-                                 @Qualifier("StorePackStep") Step storePackStep) {
+                                 @Qualifier("ShippingPackageStep") Step shippingPackageStep,
+                                 @Qualifier("DeliveryPackToCustomerStep") Step deliveryPackToCustomerStep,
+                                 @Qualifier("DeliverySuccessStep") Step deliverySuccessStep,
+                                 @Qualifier("StorePackBackStep") Step storePackBackStep,
+                                 @Qualifier("PlanAgainDeliveryStep") Step planAgainDeliveryStep) {
         return new JobBuilder("DeliveryJob", jobRepository)
                 .start(packItemStep)
-                .next(routeToAddressStep)
-                    .on("FAILED").to(storePackStep)
-                .from(routeToAddressStep)
-                    .on("*").to(deliveryPackToAddress)
+                .next(shippingPackageStep)
+                .next(deliveryPackToCustomerStep)
+                    .on("FAILED").to(storePackBackStep).next(planAgainDeliveryStep)
+                .from(deliveryPackToCustomerStep)
+                    .on("*").to(deliverySuccessStep)
                 .end()
                 .build();
     }
@@ -35,24 +38,38 @@ public class DeliveryJobConfig {
                 .build();
     }
 
-    @Bean("RouteToAddressStep")
-    public Step createRouteToAddressStep(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
-        return new StepBuilder("RouteToAddressStep", jobRepository)
-                .tasklet(new RouteToAddressTasklet(), transactionManager)
+    @Bean("ShippingPackageStep")
+    public Step createShippingPackageStep(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
+        return new StepBuilder("ShippingPackageStep", jobRepository)
+                .tasklet(new ShippingPackageTasklet(), transactionManager)
                 .build();
     }
 
-    @Bean("DeliveryPackToAddressStep")
-    public Step createDeliveryPackToAddressStep(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
-        return new StepBuilder("DeliveryPackToAddressStep", jobRepository)
-                .tasklet(new DeliveryPackToAddressTasklet(), transactionManager)
+    @Bean("DeliveryPackToCustomerStep")
+    public Step createDeliveryPackToCustomerStep(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
+        return new StepBuilder("DeliveryPackToCustomerStep", jobRepository)
+                .tasklet(new DeliveryPackToCustomerTasklet(), transactionManager)
                 .build();
     }
 
-    @Bean("StorePackStep")
-    public Step createStorePackStep(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
-        return new StepBuilder("StorePackStep", jobRepository)
+    @Bean("DeliverySuccessStep")
+    public Step createDeliverySuccessStep(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
+        return new StepBuilder("DeliverySuccessStep", jobRepository)
+                .tasklet(new DeliverySuccessStepTasklet(), transactionManager)
+                .build();
+    }
+
+    @Bean("StorePackBackStep")
+    public Step createStorePackBackStep(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
+        return new StepBuilder("StorePackBackStep", jobRepository)
                 .tasklet(new StorePackTasklet(), transactionManager)
+                .build();
+    }
+
+    @Bean("PlanAgainDeliveryStep")
+    public Step createPlanAgainDeliveryStep(JobRepository jobRepository, JdbcTransactionManager transactionManager) {
+        return new StepBuilder("PlanAgainDeliveryStep", jobRepository)
+                .tasklet(new PlanAgainDeliveryTasklet(), transactionManager)
                 .build();
     }
 }
