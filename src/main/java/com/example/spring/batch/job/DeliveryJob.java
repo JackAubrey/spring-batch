@@ -12,6 +12,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 public class DeliveryJob {
+    @Bean
     public Job prepareFlowers(
             JobRepository jobRepository,
             @Qualifier("SelectFlowersStep") Step selectFlowersStep,
