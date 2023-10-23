@@ -1,20 +1,35 @@
-package com.example.spring.batch.job.model;
+package com.example.spring.batch.job.db.customers;
+
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
-public class Cliente {
-    private String codFid;
+@Entity
+@Table(name = "CLIENTI")
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    private String codfid;
     private String nominativo;
     private String comune;
     private int stato;
     private int bollini;
 
-    public String getCodFid() {
-        return codFid;
+    public Long getId() {
+        return id;
     }
 
-    public void setCodFid(String codFid) {
-        this.codFid = codFid;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCodfid() {
+        return codfid;
+    }
+
+    public void setCodfid(String codfid) {
+        this.codfid = codfid;
     }
 
     public String getNominativo() {
@@ -49,10 +64,12 @@ public class Cliente {
         this.bollini = bollini;
     }
 
+
     @Override
     public String toString() {
-        return "Cliente{" +
-                "codFid='" + codFid + '\'' +
+        return "Customer{" +
+                "id=" + id +
+                ", codfid='" + codfid + '\'' +
                 ", nominativo='" + nominativo + '\'' +
                 ", comune='" + comune + '\'' +
                 ", stato=" + stato +
@@ -64,12 +81,12 @@ public class Cliente {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Cliente cliente = (Cliente) o;
-        return stato == cliente.stato && bollini == cliente.bollini && Objects.equals(codFid, cliente.codFid) && Objects.equals(nominativo, cliente.nominativo) && Objects.equals(comune, cliente.comune);
+        Customer customer = (Customer) o;
+        return stato == customer.stato && bollini == customer.bollini && Objects.equals(id, customer.id) && Objects.equals(codfid, customer.codfid) && Objects.equals(nominativo, customer.nominativo) && Objects.equals(comune, customer.comune);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codFid, nominativo, comune, stato, bollini);
+        return Objects.hash(id, codfid, nominativo, comune, stato, bollini);
     }
 }
