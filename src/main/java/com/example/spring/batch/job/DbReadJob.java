@@ -9,7 +9,10 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.*;
+import org.springframework.batch.item.database.PagingQueryProvider;
 import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
+import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuilder;
+import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +21,9 @@ import org.springframework.jdbc.core.ArgumentPreparedStatementSetter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 public class DbReadJob {
@@ -38,18 +43,47 @@ public class DbReadJob {
             """;
 
     private static final String SQL_CALL_SP_GET_CLIENTE = "call ClientiDataSet.GetCustomerByComune(?);";
+    private static final int PAGE_SIZE = 5;
 
     @Bean("DbItemReader")
+    @StepScope
     public ItemReader<Cliente> dbItemReader(
-            @Qualifier("CustomersDataSource")DataSource customerDataSource
-    ) {
-        return new JdbcCursorItemReaderBuilder<Cliente>()
+            @Qualifier("CustomersDataSource")DataSource customerDataSource,
+            @Qualifier("QueryProvider")PagingQueryProvider queryProvider,
+            @Value("#{jobParameters['comune']}") String comune
+            ) {
+        Map<String, Object> params = comune == null ? new HashMap<>() : Map.of("comune", comune);
+
+        return new JdbcPagingItemReaderBuilder<Cliente>()
                 .name("customer-cursor-item-reader")
                 .dataSource(customerDataSource)
-                .sql(SQL_CALL_SP_GET_CLIENTE)
+                .queryProvider(queryProvider)
+                .pageSize(PAGE_SIZE)
                 .rowMapper(new ClienteRowMapper())
-                .preparedStatementSetter(comuneSetter(null))
+                .parameterValues(params)
+                //.preparedStatementSetter(comuneSetter(null))
                 .build();
+    }
+
+    @Bean("QueryProvider")
+    @StepScope
+    public PagingQueryProvider pagingQueryProvider(@Qualifier("CustomersDataSource")DataSource customerDataSource,
+                                                   @Value("#{jobParameters['comune']}") String comune) {
+        SqlPagingQueryProviderFactoryBean sqlPagingQueryProviderFactoryBean = new SqlPagingQueryProviderFactoryBean();
+        sqlPagingQueryProviderFactoryBean.setSelectClause("SELECT c.id, c.codfid, c.nominativo, c.comune, c.stato, c.bollini");
+        sqlPagingQueryProviderFactoryBean.setFromClause("FROM ClientiDataSet.CLIENTI as c");
+
+        if( comune != null) {
+            sqlPagingQueryProviderFactoryBean.setWhereClause("WHERE c.comune = :comune");
+        }
+
+        sqlPagingQueryProviderFactoryBean.setSortKey("nominativo");
+        sqlPagingQueryProviderFactoryBean.setDataSource(customerDataSource);
+        try {
+            return sqlPagingQueryProviderFactoryBean.getObject();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Bean
@@ -67,6 +101,7 @@ public class DbReadJob {
             @Override
             public void write(Chunk<? extends Cliente> chunk) throws Exception {
                 List<? extends Cliente> customers = chunk.getItems();
+                System.out.println("Received list with size "+customers.size());
                 customers.forEach(System.out::println);
             }
         };
@@ -85,7 +120,7 @@ public class DbReadJob {
                                      @Qualifier("DbItemReader") ItemReader<Cliente> itemReader,
                                      @Qualifier("SysOutItemWriter") ItemWriter<Cliente> itemWriter) {
         return new StepBuilder("db-read-chunk-based-step", jobRepository)
-                .<Cliente, Cliente>chunk(3, transactionManager)
+                .<Cliente, Cliente>chunk(PAGE_SIZE, transactionManager)
                 .reader(itemReader)
                 .writer(itemWriter)
                 .build();
