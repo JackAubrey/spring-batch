@@ -22,6 +22,14 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ADVICES:
+ * JPA multi data-sources requires:
+ *  - a package for every datasource.
+ *  - a Primary from one of them
+ *  - entities, repositories, and so on must be to the same package
+ *  - see for more details https://www.baeldung.com/spring-boot-configure-multiple-datasources
+ */
 @Configuration
 public class DbReadJob {
     @Bean("JpaItemReader")
