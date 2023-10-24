@@ -4,6 +4,7 @@ import com.example.spring.batch.job.db.mapper.ClienteRowMapper;
 import com.example.spring.batch.job.model.Cliente;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
@@ -48,7 +49,7 @@ public class DbReadJob {
     private static final int PAGE_SIZE = 5;
 
     @Bean("DbItemReader")
-    @StepScope
+    @JobScope
     public ItemReader<Cliente> dbItemReader(
             @Qualifier("CustomersDataSource")DataSource customerDataSource,
             @Qualifier("QueryProvider")PagingQueryProvider queryProvider,
@@ -68,7 +69,7 @@ public class DbReadJob {
     }
 
     @Bean("QueryProvider")
-    @StepScope
+    @JobScope
     public PagingQueryProvider pagingQueryProvider(@Qualifier("CustomersDataSource")DataSource customerDataSource,
                                                    @Value("#{jobParameters['comune']}") String comune) {
         SqlPagingQueryProviderFactoryBean sqlPagingQueryProviderFactoryBean = new SqlPagingQueryProviderFactoryBean();
@@ -89,7 +90,7 @@ public class DbReadJob {
     }
 
     @Bean
-    @StepScope
+    @JobScope
     public ArgumentPreparedStatementSetter comuneSetter(
             @Value("#{jobParameters['comune']}") String comune
     ) {
