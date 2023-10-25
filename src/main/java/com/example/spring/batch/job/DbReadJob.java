@@ -105,6 +105,10 @@ public class DbReadJob {
                 .delimited()
                 .delimiter(",")
                 .names( "codFid", "nominativo", "comune", "bollini", "stato" )
+                // other useful options
+                //.shouldDeleteIfEmpty(true) // remove the file if after the job process is empty (default false)
+                //.shouldDeleteIfExists(false) // if file is already present it will be deleted. (default true)
+                //.append(true) // to use with shouldDeleteIfExists in order to append new data in an already existing file
                 .headerCallback(c -> {
                     c.write("COD_FID,");
                     c.write("NAME,");
