@@ -2,19 +2,18 @@ package com.example.spring.batch.job;
 
 import com.example.spring.batch.job.db.mapper.ClienteRowMapper;
 import com.example.spring.batch.job.model.Cliente;
+import org.slf4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobScope;
-import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.item.*;
+import org.springframework.batch.item.ItemReader;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.PagingQueryProvider;
-import org.springframework.batch.item.database.builder.JdbcCursorItemReaderBuilder;
 import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuilder;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
-import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,24 +27,11 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 @Configuration
 public class DbReadJob {
-    private static final String [] tokens = {"codfid", "nominativo", "comune", "stato", "bollini"};
-    private static final String SQL_SELECT_CLIENTI = """
-            SELECT 
-                c.id, 
-                c.codfid, 
-                c.nominativo, 
-                c.comune, 
-                c.stato, 
-                c.bollini 
-            FROM 
-                ClientiDataSet.CLIENTI as c
-            where 
-                c.comune = ?
-            """;
-
-    private static final String SQL_CALL_SP_GET_CLIENTE = "call ClientiDataSet.GetCustomerByComune(?);";
+    private static final Logger logger = getLogger(DbReadJob.class);
     private static final int PAGE_SIZE = 5;
 
     @Bean("DbItemReader")
@@ -85,7 +71,7 @@ public class DbReadJob {
         try {
             return sqlPagingQueryProviderFactoryBean.getObject();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new DbReadJobRuntimeException("Query Provider Exception: ", e);
         }
     }
 
@@ -94,7 +80,7 @@ public class DbReadJob {
     public ArgumentPreparedStatementSetter comuneSetter(
             @Value("#{jobParameters['comune']}") String comune
     ) {
-        System.out.println("Comune = "+comune);
+        logger.info("Comune = {} ", comune);
         return new ArgumentPreparedStatementSetter(new Object[]{comune});
     }
 
@@ -105,7 +91,7 @@ public class DbReadJob {
                 .resource(new FileSystemResource("/home/dcividin/git/courses/spring-batch/external_resources/output/customers.csv"))
                 .delimited()
                 .delimiter(",")
-                .names( new String[]{"codFid", "nominativo", "comune", "bollini", "stato" })
+                .names( "codFid", "nominativo", "comune", "bollini", "stato" )
                 .headerCallback(c -> {
                     c.write("COD_FID,");
                     c.write("NAME,");
