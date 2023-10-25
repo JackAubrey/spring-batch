@@ -5,7 +5,7 @@ import com.example.spring.batch.job.model.Cliente;
 import org.slf4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.JobScope;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
@@ -14,13 +14,13 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.PagingQueryProvider;
 import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuilder;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
+import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.jdbc.core.ArgumentPreparedStatementSetter;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -34,8 +34,27 @@ public class DbReadJob {
     private static final Logger logger = getLogger(DbReadJob.class);
     private static final int PAGE_SIZE = 5;
 
+    @Bean("DbReadJob")
+    public Job dbReadsJob(JobRepository jobRepository,
+                          @Qualifier("DbReadChunkBasedStep")Step dbReadChunkBasedStep) {
+        return new JobBuilder("db-read-job", jobRepository)
+                .start(dbReadChunkBasedStep)
+                .build();
+    }
+
+    @Bean("DbReadChunkBasedStep")
+    public Step dbReadChunkBasedStep(JobRepository jobRepository, PlatformTransactionManager transactionManager,
+                                     @Qualifier("DbItemReader") ItemReader<Cliente> itemReader,
+                                     @Qualifier("FileItemWriter") FlatFileItemWriter<Cliente> itemWriter) {
+        return new StepBuilder("db-read-chunk-based-step", jobRepository)
+                .<Cliente, Cliente>chunk(PAGE_SIZE, transactionManager)
+                .reader(itemReader)
+                .writer(itemWriter)
+                .build();
+    }
+
     @Bean("DbItemReader")
-    @JobScope
+    @StepScope
     public ItemReader<Cliente> dbItemReader(
             @Qualifier("CustomersDataSource")DataSource customerDataSource,
             @Qualifier("QueryProvider")PagingQueryProvider queryProvider,
@@ -55,7 +74,7 @@ public class DbReadJob {
     }
 
     @Bean("QueryProvider")
-    @JobScope
+    @StepScope
     public PagingQueryProvider pagingQueryProvider(@Qualifier("CustomersDataSource")DataSource customerDataSource,
                                                    @Value("#{jobParameters['comune']}") String comune) {
         SqlPagingQueryProviderFactoryBean sqlPagingQueryProviderFactoryBean = new SqlPagingQueryProviderFactoryBean();
@@ -75,20 +94,14 @@ public class DbReadJob {
         }
     }
 
-    @Bean
-    @JobScope
-    public ArgumentPreparedStatementSetter comuneSetter(
-            @Value("#{jobParameters['comune']}") String comune
-    ) {
-        logger.info("Comune = {} ", comune);
-        return new ArgumentPreparedStatementSetter(new Object[]{comune});
-    }
-
     @Bean("FileItemWriter")
-    public ItemWriter<Cliente> sysOutItemWriter () {
+    @StepScope
+    public FlatFileItemWriter<Cliente> fileOutItemWriter (
+            @Value("#{jobParameters['outputFile']}")String outputFile
+            ) {
         return new FlatFileItemWriterBuilder<Cliente>()
                 .name("CustomersCSVWriter")
-                .resource(new FileSystemResource("/home/dcividin/git/courses/spring-batch/external_resources/output/customers.csv"))
+                .resource(new FileSystemResource(outputFile))
                 .delimited()
                 .delimiter(",")
                 .names( "codFid", "nominativo", "comune", "bollini", "stato" )
@@ -99,24 +112,5 @@ public class DbReadJob {
                     c.write("POINTS,");
                     c.write("STATUS");
                 }).build();
-    }
-
-    @Bean("DbReadJob")
-    public Job dbReadsJob(JobRepository jobRepository,
-                          @Qualifier("DbReadChunkBasedStep")Step dbReadChunkBasedStep) {
-        return new JobBuilder("db-read-job", jobRepository)
-                .start(dbReadChunkBasedStep)
-                .build();
-    }
-
-    @Bean("DbReadChunkBasedStep")
-    public Step dbReadChunkBasedStep(JobRepository jobRepository, PlatformTransactionManager transactionManager,
-                                     @Qualifier("DbItemReader") ItemReader<Cliente> itemReader,
-                                     @Qualifier("FileItemWriter") ItemWriter<Cliente> itemWriter) {
-        return new StepBuilder("db-read-chunk-based-step", jobRepository)
-                .<Cliente, Cliente>chunk(PAGE_SIZE, transactionManager)
-                .reader(itemReader)
-                .writer(itemWriter)
-                .build();
     }
 }
