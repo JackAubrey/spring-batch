@@ -34,7 +34,8 @@ public class DbReadJob {
     private static final Logger logger = getLogger(DbReadJob.class);
     private static final int PAGE_SIZE = 5;
 
-    private static final String INSERT_CUSTOMER_SQL = "INSERT INTO CLIENTI (CodFid, Nominativo, Comune, Stato, Bollini) VALUES (?, ?, ?, ?, ?);";
+    private static final String INSERT_CUSTOMER_SQL = "INSERT INTO CLIENTI (CodFid, Nominativo, Comune, Stato, Bollini) " +
+            " VALUES (:codFid, :nominativo, :comune, :stato, :bollini);";
 
     @Bean("DbReadJob")
     public Job dbReadsJob(JobRepository jobRepository,
@@ -103,7 +104,7 @@ public class DbReadJob {
         return new JdbcBatchItemWriterBuilder<Cliente>()
                 .dataSource(dataSource)
                 .sql(INSERT_CUSTOMER_SQL)
-                .itemPreparedStatementSetter(new CustomerItemStatement())
+                .beanMapped()
                 .build();
     }
 }
