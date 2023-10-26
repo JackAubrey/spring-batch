@@ -1,6 +1,7 @@
 package com.example.spring.batch.job;
 
-import com.example.spring.batch.job.db.mapper.ClienteRowMapper;
+import com.example.spring.batch.job.db.mapper.CustomerItemStatement;
+import com.example.spring.batch.job.db.mapper.CustomerRowMapper;
 import com.example.spring.batch.job.model.Cliente;
 import org.slf4j.Logger;
 import org.springframework.batch.core.Job;
@@ -12,15 +13,14 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.PagingQueryProvider;
+import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuilder;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.batch.item.file.FlatFileItemWriter;
-import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -34,6 +34,8 @@ public class DbReadJob {
     private static final Logger logger = getLogger(DbReadJob.class);
     private static final int PAGE_SIZE = 5;
 
+    private static final String INSERT_CUSTOMER_SQL = "INSERT INTO CLIENTI (CodFid, Nominativo, Comune, Stato, Bollini) VALUES (?, ?, ?, ?, ?);";
+
     @Bean("DbReadJob")
     public Job dbReadsJob(JobRepository jobRepository,
                           @Qualifier("DbReadChunkBasedStep")Step dbReadChunkBasedStep) {
@@ -45,7 +47,7 @@ public class DbReadJob {
     @Bean("DbReadChunkBasedStep")
     public Step dbReadChunkBasedStep(JobRepository jobRepository, PlatformTransactionManager transactionManager,
                                      @Qualifier("DbItemReader") ItemReader<Cliente> itemReader,
-                                     @Qualifier("FileItemWriter") FlatFileItemWriter<Cliente> itemWriter) {
+                                     @Qualifier("DbItemWriter") ItemWriter<Cliente> itemWriter) {
         return new StepBuilder("db-read-chunk-based-step", jobRepository)
                 .<Cliente, Cliente>chunk(PAGE_SIZE, transactionManager)
                 .reader(itemReader)
@@ -67,7 +69,7 @@ public class DbReadJob {
                 .dataSource(customerDataSource)
                 .queryProvider(queryProvider)
                 .pageSize(PAGE_SIZE)
-                .rowMapper(new ClienteRowMapper())
+                .rowMapper(new CustomerRowMapper())
                 .parameterValues(params)
                 //.preparedStatementSetter(comuneSetter(null))
                 .build();
@@ -94,27 +96,14 @@ public class DbReadJob {
         }
     }
 
-    @Bean("FileItemWriter")
-    @StepScope
-    public FlatFileItemWriter<Cliente> fileOutItemWriter (
-            @Value("#{jobParameters['outputFile']}")String outputFile
-            ) {
-        return new FlatFileItemWriterBuilder<Cliente>()
-                .name("CustomersCSVWriter")
-                .resource(new FileSystemResource(outputFile))
-                .delimited()
-                .delimiter(",")
-                .names( "codFid", "nominativo", "comune", "bollini", "stato" )
-                // other useful options
-                //.shouldDeleteIfEmpty(true) // remove the file if after the job process is empty (default false)
-                //.shouldDeleteIfExists(false) // if file is already present it will be deleted. (default true)
-                //.append(true) // to use with shouldDeleteIfExists in order to append new data in an already existing file
-                .headerCallback(c -> {
-                    c.write("COD_FID,");
-                    c.write("NAME,");
-                    c.write("COUNTRY,");
-                    c.write("POINTS,");
-                    c.write("STATUS");
-                }).build();
+    @Bean("DbItemWriter")
+    public ItemWriter<Cliente> dbItemWriter (
+            @Qualifier("MockExternalCustomersDataSource") DataSource dataSource
+    ) {
+        return new JdbcBatchItemWriterBuilder<Cliente>()
+                .dataSource(dataSource)
+                .sql(INSERT_CUSTOMER_SQL)
+                .itemPreparedStatementSetter(new CustomerItemStatement())
+                .build();
     }
 }

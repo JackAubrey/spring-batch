@@ -41,4 +41,18 @@ public class DataSourceConfig {
         System.out.println("CustomersDataSource initializing with properties "+customersProperties.getUrl());
         return customersProperties.initializeDataSourceBuilder().build();
     }
+
+    @Bean("MockExternalCustomersDataSourceProperties")
+    @ConfigurationProperties("spring.datasource.mock.external.customers")
+    public DataSourceProperties mockExternalcustomersDataSourceProperties() {
+        return new DataSourceProperties();
+    }
+
+    @Bean("MockExternalCustomersDataSource")
+    public DataSource mockExternalcustomersDataSource(
+            @Qualifier("MockExternalCustomersDataSourceProperties")DataSourceProperties customersProperties
+    ) {
+        System.out.println("MockExternal-CustomersDataSource initializing with properties "+customersProperties.getUrl());
+        return customersProperties.initializeDataSourceBuilder().build();
+    }
 }
