@@ -1,12 +1,19 @@
 package com.example.spring.batch.job.model;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
+
 import java.util.Objects;
 
 public class Cliente {
     private String codFid;
+    @Size(min = 6, max = 50)
     private String nominativo;
     private String comune;
     private int stato;
+    @Min(0)
+    @Max(5000)
     private int bollini;
 
     public String getCodFid() {

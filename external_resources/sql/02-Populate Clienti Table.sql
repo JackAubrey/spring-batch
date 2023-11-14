@@ -9,3 +9,6 @@ INSERT INTO `ClientiDataSet`.`CLIENTI` (`CodFid`, `Nominativo`, `Comune`, `Stato
 INSERT INTO `ClientiDataSet`.`CLIENTI` (`CodFid`, `Nominativo`, `Comune`, `Stato`, `Bollini`) VALUES ('67100481  ', 'ANGELA FRIGERIO', 'MACOMER', 1, 188);
 INSERT INTO `ClientiDataSet`.`CLIENTI` (`CodFid`, `Nominativo`, `Comune`, `Stato`, `Bollini`) VALUES ('67100627  ', 'MARIO MUREDDU', 'SASSARI', 1, 48);
 INSERT INTO `ClientiDataSet`.`CLIENTI` (`CodFid`, `Nominativo`, `Comune`, `Stato`, `Bollini`) VALUES ('67300121  ', 'Luigi Alberti', 'Alghero', 1, 1480);
+
+INSERT INTO `ClientiDataSet`.`CLIENTI` (`CodFid`, `Nominativo`, `Comune`, `Stato`, `Bollini`) VALUES ('67100628  ', 'luk', 'ORISTANO', 1, 48);
+INSERT INTO `ClientiDataSet`.`CLIENTI` (`CodFid`, `Nominativo`, `Comune`, `Stato`, `Bollini`) VALUES ('67300122  ', 'Mario LaRocca', 'ORISTANO', 1, -10);
