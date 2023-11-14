@@ -19,6 +19,8 @@ import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilde
 import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuilder;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.batch.item.file.FlatFileItemWriter;
+import org.springframework.batch.item.support.CompositeItemProcessor;
+import org.springframework.batch.item.support.builder.CompositeItemProcessorBuilder;
 import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,9 +57,15 @@ public class DbReadJob {
         return new StepBuilder("db-read-chunk-based-step", jobRepository)
                 .<Cliente, Cliente2>chunk(PAGE_SIZE, transactionManager)
                 .reader(itemReader)
-                //.processor(clientiValidatingProcessor())
-                .processor(clientiConverterProcessor())
+                .processor(compositeItemProcessor())
                 .writer(itemWriter)
+                .build();
+    }
+
+    @Bean
+    public ItemProcessor<Cliente, Cliente2> compositeItemProcessor() {
+        return new CompositeItemProcessorBuilder<Cliente, Cliente2>()
+                .delegates(clientiValidatingProcessor(), clientiConverterProcessor())
                 .build();
     }
 
