@@ -3,6 +3,7 @@ package com.example.spring.batch.job;
 import com.example.spring.batch.job.db.mapper.CustomerItemStatement;
 import com.example.spring.batch.job.db.mapper.CustomerRowMapper;
 import com.example.spring.batch.job.model.Cliente;
+import com.example.spring.batch.job.model.Cliente2;
 import org.slf4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -36,8 +37,8 @@ public class DbReadJob {
     private static final Logger logger = getLogger(DbReadJob.class);
     private static final int PAGE_SIZE = 5;
 
-    private static final String INSERT_CUSTOMER_SQL = "INSERT INTO CLIENTI (CodFid, Nominativo, Comune, Stato, Bollini) " +
-            " VALUES (:codFid, :nominativo, :comune, :stato, :bollini);";
+    private static final String INSERT_CUSTOMER_SQL = "INSERT INTO CLIENTI2 (CodFid, Nominativo, Comune, Stato, Bollini, Tipo) " +
+            " VALUES (:codFid, :nominativo, :comune, :stato, :bollini, :tipo);";
 
     @Bean("DbReadJob")
     public Job dbReadsJob(JobRepository jobRepository,
@@ -50,11 +51,12 @@ public class DbReadJob {
     @Bean("DbReadChunkBasedStep")
     public Step dbReadChunkBasedStep(JobRepository jobRepository, PlatformTransactionManager transactionManager,
                                      @Qualifier("DbItemReader") ItemReader<Cliente> itemReader,
-                                     @Qualifier("DbItemWriter") ItemWriter<Cliente> itemWriter) {
+                                     @Qualifier("DbItemWriter") ItemWriter<Cliente2> itemWriter) {
         return new StepBuilder("db-read-chunk-based-step", jobRepository)
-                .<Cliente, Cliente>chunk(PAGE_SIZE, transactionManager)
+                .<Cliente, Cliente2>chunk(PAGE_SIZE, transactionManager)
                 .reader(itemReader)
-                .processor(clientiValidatingProcessor())
+                //.processor(clientiValidatingProcessor())
+                .processor(clientiConverterProcessor())
                 .writer(itemWriter)
                 .build();
     }
@@ -65,6 +67,11 @@ public class DbReadJob {
         itemProcessor.setFilter(true);
 
         return itemProcessor;
+    }
+
+    @Bean
+    public ItemProcessor<Cliente, Cliente2> clientiConverterProcessor() {
+        return new Cliente2ItemProcessor();
     }
 
     @Bean("DbItemReader")
@@ -109,10 +116,10 @@ public class DbReadJob {
     }
 
     @Bean("DbItemWriter")
-    public ItemWriter<Cliente> dbItemWriter (
+    public ItemWriter<Cliente2> dbItemWriter (
             @Qualifier("MockExternalCustomersDataSource") DataSource dataSource
     ) {
-        return new JdbcBatchItemWriterBuilder<Cliente>()
+        return new JdbcBatchItemWriterBuilder<Cliente2>()
                 .dataSource(dataSource)
                 .sql(INSERT_CUSTOMER_SQL)
                 .beanMapped()
