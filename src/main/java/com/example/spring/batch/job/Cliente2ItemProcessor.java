@@ -8,6 +8,11 @@ public class Cliente2ItemProcessor implements ItemProcessor<Cliente, Cliente2> {
     @Override
     public Cliente2 process(Cliente item) throws Exception {
         Cliente2 cliente2 = new Cliente2();
+
+        if( item.getCodFid().trim().length() != 8) {
+            throw new CodeNotValidException("Ricevuto codice cliente non valido: "+item.getCodFid());
+        }
+
         cliente2.setBollini(item.getBollini() < 0 ? 0 : item.getBollini());
         cliente2.setNominativo(item.getNominativo().toLowerCase().trim());
         cliente2.setCodFid(item.getCodFid().toLowerCase().trim());

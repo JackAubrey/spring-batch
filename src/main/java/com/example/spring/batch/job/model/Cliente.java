@@ -13,7 +13,7 @@ public class Cliente {
     private String comune;
     private int stato;
     @Min(0)
-    @Max(5000)
+    @Max(50000)
     private int bollini;
 
     public String getCodFid() {

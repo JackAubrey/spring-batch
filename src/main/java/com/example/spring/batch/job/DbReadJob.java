@@ -58,6 +58,10 @@ public class DbReadJob {
                 .<Cliente, Cliente2>chunk(PAGE_SIZE, transactionManager)
                 .reader(itemReader)
                 .processor(compositeItemProcessor())
+                    .faultTolerant()
+                    .skip(CodeNotValidException.class)
+                    .skipLimit(3) // in order to simulate this case, modify 3 data on th Customer table
+                    .listener(new CustomSkipListener())
                 .writer(itemWriter)
                 .build();
     }
