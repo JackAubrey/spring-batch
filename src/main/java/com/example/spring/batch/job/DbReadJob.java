@@ -34,7 +34,8 @@ import java.util.Map;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-@Configuration
+// disabled in this branch. we will use the ScheduledJob to study a job executed via cron
+//@Configuration
 public class DbReadJob {
     private static final Logger logger = getLogger(DbReadJob.class);
     private static final int PAGE_SIZE = 5;
