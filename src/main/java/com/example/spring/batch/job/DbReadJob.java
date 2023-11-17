@@ -1,6 +1,5 @@
 package com.example.spring.batch.job;
 
-import com.example.spring.batch.job.db.mapper.CustomerItemStatement;
 import com.example.spring.batch.job.db.mapper.CustomerRowMapper;
 import com.example.spring.batch.job.model.Cliente;
 import com.example.spring.batch.job.model.Cliente2;
@@ -18,14 +17,14 @@ import org.springframework.batch.item.database.PagingQueryProvider;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuilder;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
-import org.springframework.batch.item.file.FlatFileItemWriter;
-import org.springframework.batch.item.support.CompositeItemProcessor;
 import org.springframework.batch.item.support.builder.CompositeItemProcessorBuilder;
 import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -67,7 +66,22 @@ public class DbReadJob {
                     .retryLimit(3)
                     .listener(new CustomRetryListener())
                 .writer(itemWriter)
+
+                // enable-multi-thread-step support
+                // BEWARE: enabling this function we will lose the capability to repeat
+                // a job in case of failure from the last step.
+                // this means we have to repeat from scratch
+                //.taskExecutor(new SimpleAsyncTaskExecutor()) // <-- it is simplest way to activate this feature
+                .taskExecutor(taskExecutor()) // <-- customized task-executor
                 .build();
+    }
+
+    @Bean
+    private TaskExecutor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(2);
+        executor.setMaxPoolSize(10);
+        return executor;
     }
 
     @Bean
