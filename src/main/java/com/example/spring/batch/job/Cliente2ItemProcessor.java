@@ -4,13 +4,21 @@ import com.example.spring.batch.job.model.Cliente;
 import com.example.spring.batch.job.model.Cliente2;
 import org.springframework.batch.item.ItemProcessor;
 
+import java.io.IOException;
+import java.util.Random;
+
 public class Cliente2ItemProcessor implements ItemProcessor<Cliente, Cliente2> {
     @Override
     public Cliente2 process(Cliente item) throws Exception {
         Cliente2 cliente2 = new Cliente2();
 
-        if( item.getCodFid().trim().length() != 8) {
-            throw new CodeNotValidException("Ricevuto codice cliente non valido: "+item.getCodFid());
+//        if( item.getCodFid().trim().length() != 8) {
+//            throw new CodeNotValidException("Ricevuto codice cliente non valido: "+item.getCodFid());
+//        }
+
+        int rndValue = new Random().nextInt(10);
+        if(rndValue > 7) {
+            throw new IOException("Simulating IOException. Random Value = "+rndValue);
         }
 
         cliente2.setBollini(item.getBollini() < 0 ? 0 : item.getBollini());

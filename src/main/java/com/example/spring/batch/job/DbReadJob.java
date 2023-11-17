@@ -29,6 +29,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +63,9 @@ public class DbReadJob {
                     .skip(CodeNotValidException.class)
                     .skipLimit(3) // in order to simulate this case, modify 3 data on th Customer table
                     .listener(new CustomSkipListener())
+                    .retry(IOException.class)
+                    .retryLimit(3)
+                    .listener(new CustomRetryListener())
                 .writer(itemWriter)
                 .build();
     }
