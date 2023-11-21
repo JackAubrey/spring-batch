@@ -19,6 +19,7 @@ import org.springframework.batch.item.json.JsonFileItemWriter;
 import org.springframework.batch.item.json.JsonItemReader;
 import org.springframework.batch.item.json.builder.JsonFileItemWriterBuilder;
 import org.springframework.batch.item.json.builder.JsonItemReaderBuilder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,8 +32,9 @@ import java.io.File;
 @Configuration
 @Slf4j
 public class UpdateSoldJob {
+    @Bean
     public Job job(JobRepository repository, FileHandlingJobExecutionListener listener,
-                   Step step01) {
+                   @Qualifier("step-01") Step step01) {
         return new JobBuilder("update-sold", repository)
                 .start(step01)
                 .listener(listener)
@@ -40,22 +42,26 @@ public class UpdateSoldJob {
                 .build();
     }
 
-    @Bean
-    public Step step01(JobRepository repository, PlatformTransactionManager transactionManager) {
+    @Bean("step-01")
+    public Step step01(JobRepository repository, PlatformTransactionManager transactionManager,
+                       @Qualifier("sales-reader")JsonItemReader<Sales> reader,
+                       @Qualifier("sales-processor")ItemProcessor<Sales, Sales> processor,
+                       @Qualifier("sales-writer")JsonFileItemWriter<Sales> writer) {
         return new StepBuilder("first-step", repository)
                 .<Sales, Sales>chunk(1, transactionManager)
-                .reader(reader(null, null))
-                .processor(processor(null))
-                .writer(writer(null, null))
+                .reader(reader)
+                .processor(processor)
+                .writer(writer)
                 .build();
     }
 
-    @Bean
+    @Bean("sales-reader")
     @StepScope
     public JsonItemReader<Sales> reader(
             @Value(AppConstants.JOB_PARAM_INPUT_PATH_REF) String inputPath,
-            @Value(AppConstants.JOB_PARAM_OUTPUT_FILE_NAME_REF) String fileName
+            @Value(AppConstants.JOB_PARAM_INPUT_FILE_NAME_REF) String fileName
     ) {
+        log.info("Try to init sales reader for the file {} taken from {}", fileName, inputPath);
         FileSystemResource resource = new FileSystemResource(new File(inputPath, fileName));
 
         return new JsonItemReaderBuilder<Sales>()
@@ -65,7 +71,7 @@ public class UpdateSoldJob {
                 .build();
     }
 
-    @Bean
+    @Bean("sales-processor")
     @StepScope
     public ItemProcessor<Sales, Sales> processor(
             @Value(AppConstants.JOB_PARAM_ANONYMIZE_DATA_REF) String anonymize
@@ -103,13 +109,13 @@ public class UpdateSoldJob {
         };
     }
 
-    @Bean
+    @Bean("sales-writer")
     @StepScope
     public JsonFileItemWriter<Sales> writer(
             @Value(AppConstants.JOB_PARAM_OUTPUT_PATH_REF) String outputPath,
-            @Value(AppConstants.JOB_PARAM_OUTPUT_FILE_NAME_REF) String fileName
+            @Value(AppConstants.JOB_PARAM_INPUT_FILE_NAME_REF) String fileName
     ) {
-        FileSystemResource resource = new FileSystemResource(outputPath);
+        FileSystemResource resource = new FileSystemResource( new File(outputPath,fileName) );
 
         return new JsonFileItemWriterBuilder<Sales>()
                 .name("output-item-writer")

@@ -22,7 +22,7 @@ public class FileHandlingJobExecutionListenerImpl implements FileHandlingJobExec
     public void beforeJob(JobExecution jobExecution) {
         String sUploadFilePath = jobExecution.getJobParameters().getString(AppConstants.UPLOAD_FILE_PATH);
         String sInputPath = jobExecution.getJobParameters().getString(AppConstants.INPUT_PATH);
-        String sOutputFileName = jobExecution.getJobParameters().getString(AppConstants.OUTPUT_FILE_NAME);
+        String sOutputFileName = jobExecution.getJobParameters().getString(AppConstants.INPUT_FILE_NAME);
         Assert.hasText(sUploadFilePath, "The Upload path can not be null or empty");
         Assert.hasText(sInputPath, "The Input path can not be null or empty");
         Assert.hasText(sOutputFileName, "The Output file-name can not be null or empty");
@@ -53,7 +53,7 @@ public class FileHandlingJobExecutionListenerImpl implements FileHandlingJobExec
     public void afterJob(JobExecution jobExecution) {
         String sInputPath = jobExecution.getJobParameters().getString(AppConstants.INPUT_PATH);
         String sErrorPath = jobExecution.getJobParameters().getString(AppConstants.ERROR_PATH);
-        String sOutputFileName = jobExecution.getJobParameters().getString(AppConstants.OUTPUT_FILE_NAME);
+        String sOutputFileName = jobExecution.getJobParameters().getString(AppConstants.INPUT_FILE_NAME);
         Assert.hasText(sErrorPath, "The Error path can not be null or empty ");
         Assert.hasText(sInputPath, "The Input path can not be null or empty ");
         Assert.hasText(sOutputFileName, "The Output file-name can not be null or empty ");

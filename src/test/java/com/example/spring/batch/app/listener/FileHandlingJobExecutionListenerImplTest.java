@@ -11,10 +11,6 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobInstance;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import java.io.File;
-import java.nio.file.Files;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -114,7 +110,7 @@ class FileHandlingJobExecutionListenerImplTest {
         JobParameters params = new JobParametersBuilder()
                 .addString(AppConstants.UPLOAD_FILE_PATH, "/uploaded/foo.json")
                 .addString(AppConstants.INPUT_PATH, "/input")
-                .addString(AppConstants.OUTPUT_FILE_NAME, "")
+                .addString(AppConstants.INPUT_FILE_NAME, "")
                 .toJobParameters();
         JobExecution execution = new JobExecution(jobInstance, 1L, params);
 
@@ -133,7 +129,7 @@ class FileHandlingJobExecutionListenerImplTest {
         JobParameters params = new JobParametersBuilder()
                 .addString(AppConstants.UPLOAD_FILE_PATH, uploadPath)
                 .addString(AppConstants.INPUT_PATH, "/input")
-                .addString(AppConstants.OUTPUT_FILE_NAME, "bar.json")
+                .addString(AppConstants.INPUT_FILE_NAME, "bar.json")
                 .toJobParameters();
         JobExecution execution = new JobExecution(jobInstance, 1L, params);
 
@@ -152,7 +148,7 @@ class FileHandlingJobExecutionListenerImplTest {
         JobParameters params = new JobParametersBuilder()
                 .addString(AppConstants.UPLOAD_FILE_PATH, uploadPath)
                 .addString(AppConstants.INPUT_PATH, "/input")
-                .addString(AppConstants.OUTPUT_FILE_NAME, "bar.json")
+                .addString(AppConstants.INPUT_FILE_NAME, "bar.json")
                 .toJobParameters();
         JobExecution execution = new JobExecution(jobInstance, 1L, params);
 
@@ -172,7 +168,7 @@ class FileHandlingJobExecutionListenerImplTest {
         JobParameters params = new JobParametersBuilder()
                 .addString(AppConstants.UPLOAD_FILE_PATH, uploadPath)
                 .addString(AppConstants.INPUT_PATH, inputPath)
-                .addString(AppConstants.OUTPUT_FILE_NAME, "bar.json")
+                .addString(AppConstants.INPUT_FILE_NAME, "bar.json")
                 .toJobParameters();
         JobExecution execution = new JobExecution(jobInstance, 1L, params);
 
@@ -192,7 +188,7 @@ class FileHandlingJobExecutionListenerImplTest {
         JobParameters params = new JobParametersBuilder()
                 .addString(AppConstants.UPLOAD_FILE_PATH, uploadPath)
                 .addString(AppConstants.INPUT_PATH, inputPath)
-                .addString(AppConstants.OUTPUT_FILE_NAME, "bar.json")
+                .addString(AppConstants.INPUT_FILE_NAME, "bar.json")
                 .toJobParameters();
         JobExecution execution = new JobExecution(jobInstance, 1L, params);
 
@@ -212,7 +208,7 @@ class FileHandlingJobExecutionListenerImplTest {
         JobParameters params = new JobParametersBuilder()
                 .addString(AppConstants.UPLOAD_FILE_PATH, uploadPath)
                 .addString(AppConstants.INPUT_PATH, inputPath)
-                .addString(AppConstants.OUTPUT_FILE_NAME, "bar.json")
+                .addString(AppConstants.INPUT_FILE_NAME, "bar.json")
                 .toJobParameters();
         JobExecution execution = new JobExecution(jobInstance, 1L, params);
 
