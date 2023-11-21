@@ -1,0 +1,708 @@
+[ {
+  "date" : "2022-09-10",
+  "code" : "-1",
+  "name" : "CLIENTE NON FIDELITY",
+  "points" : 22,
+  "cost" : 34.26,
+  "mobile" : false
+}, {
+  "date" : "2022-09-10",
+  "code" : "67083902",
+  "name" : "John Stoltenberg I",
+  "points" : 283,
+  "cost" : 355.27,
+  "mobile" : true
+}, {
+  "date" : "2022-02-26",
+  "code" : "67123782",
+  "name" : "Mr. Robbie Renner",
+  "points" : 16237,
+  "cost" : 402.58,
+  "mobile" : true
+}, {
+  "date" : "2022-01-01",
+  "code" : "67016656",
+  "name" : "Guillermina Jacobson",
+  "points" : 15634,
+  "cost" : 97.5,
+  "mobile" : false
+}, {
+  "date" : "2022-05-07",
+  "code" : "67129196",
+  "name" : "Otis MacGyver",
+  "points" : 6692,
+  "cost" : 47.04,
+  "mobile" : false
+}, {
+  "date" : "2023-07-19",
+  "code" : "67165578",
+  "name" : "Ms. Chester Greenholt",
+  "points" : 20063,
+  "cost" : 384.53,
+  "mobile" : true
+}, {
+  "date" : "2022-11-08",
+  "code" : "67076863",
+  "name" : "Brian Weimann",
+  "points" : 24564,
+  "cost" : 217.23,
+  "mobile" : true
+}, {
+  "date" : "2022-09-11",
+  "code" : "67067301",
+  "name" : "Grady Gleichner",
+  "points" : 24827,
+  "cost" : 173.39,
+  "mobile" : true
+}, {
+  "date" : "2023-03-22",
+  "code" : "67090299",
+  "name" : "Lina Harber",
+  "points" : 6793,
+  "cost" : 127.84,
+  "mobile" : true
+}, {
+  "date" : "2022-10-27",
+  "code" : "67190428",
+  "name" : "Shaneka Willms",
+  "points" : 1263,
+  "cost" : 246.13,
+  "mobile" : true
+}, {
+  "date" : "2023-05-07",
+  "code" : "67072354",
+  "name" : "Gail Gerlach",
+  "points" : 3856,
+  "cost" : 98.37,
+  "mobile" : false
+}, {
+  "date" : "2022-10-06",
+  "code" : "67103119",
+  "name" : "Venessa Streich",
+  "points" : 3756,
+  "cost" : 154.28,
+  "mobile" : true
+}, {
+  "date" : "2022-08-28",
+  "code" : "67049607",
+  "name" : "Florinda Swift",
+  "points" : 28080,
+  "cost" : 246.65,
+  "mobile" : true
+}, {
+  "date" : "2023-04-29",
+  "code" : "67105489",
+  "name" : "Monique Connelly",
+  "points" : 22912,
+  "cost" : 23.5,
+  "mobile" : false
+}, {
+  "date" : "2023-07-05",
+  "code" : "67014560",
+  "name" : "Andres Abbott",
+  "points" : 7367,
+  "cost" : 336.68,
+  "mobile" : true
+}, {
+  "date" : "2022-08-30",
+  "code" : "67183836",
+  "name" : "Mr. Lilli Okuneva",
+  "points" : 15780,
+  "cost" : 59.05,
+  "mobile" : false
+}, {
+  "date" : "2023-05-07",
+  "code" : "67076528",
+  "name" : "Fernande Paucek",
+  "points" : 21576,
+  "cost" : 366.83,
+  "mobile" : true
+}, {
+  "date" : "2022-05-31",
+  "code" : "67007095",
+  "name" : "Lou Carroll",
+  "points" : 5977,
+  "cost" : 270.72,
+  "mobile" : true
+}, {
+  "date" : "2023-06-16",
+  "code" : "67134434",
+  "name" : "Eufemia Becker",
+  "points" : 665,
+  "cost" : 135.5,
+  "mobile" : true
+}, {
+  "date" : "2022-07-28",
+  "code" : "67197451",
+  "name" : "Gilberto Fisher",
+  "points" : 14829,
+  "cost" : 153.08,
+  "mobile" : true
+}, {
+  "date" : "2022-08-19",
+  "code" : "67024429",
+  "name" : "Britta Breitenberg",
+  "points" : 22539,
+  "cost" : 310.75,
+  "mobile" : true
+}, {
+  "date" : "2023-01-09",
+  "code" : "67103497",
+  "name" : "Rhonda Bartoletti",
+  "points" : 7319,
+  "cost" : 116.64,
+  "mobile" : true
+}, {
+  "date" : "2022-12-26",
+  "code" : "67074353",
+  "name" : "Misha Lang",
+  "points" : 17972,
+  "cost" : 482.94,
+  "mobile" : true
+}, {
+  "date" : "2022-07-18",
+  "code" : "67098280",
+  "name" : "Arnulfo Wiza",
+  "points" : 28002,
+  "cost" : 87.59,
+  "mobile" : false
+}, {
+  "date" : "2022-10-15",
+  "code" : "67073868",
+  "name" : "Tory Bode",
+  "points" : 10042,
+  "cost" : 396.5,
+  "mobile" : true
+}, {
+  "date" : "2023-03-17",
+  "code" : "67050205",
+  "name" : "Cary Gibson",
+  "points" : 7847,
+  "cost" : 477.34,
+  "mobile" : true
+}, {
+  "date" : "2022-06-22",
+  "code" : "67059109",
+  "name" : "Mr. Margarito Konopelski",
+  "points" : 18510,
+  "cost" : 437.92,
+  "mobile" : true
+}, {
+  "date" : "2023-03-19",
+  "code" : "67026519",
+  "name" : "Marlin Ankunding",
+  "points" : 1933,
+  "cost" : 89.11,
+  "mobile" : false
+}, {
+  "date" : "2022-03-15",
+  "code" : "67054143",
+  "name" : "Mr. Jeff Altenwerth",
+  "points" : 1748,
+  "cost" : 48.63,
+  "mobile" : false
+}, {
+  "date" : "2022-05-23",
+  "code" : "67151460",
+  "name" : "Isa DuBuque",
+  "points" : 22517,
+  "cost" : 340.39,
+  "mobile" : true
+}, {
+  "date" : "2022-01-05",
+  "code" : "67116230",
+  "name" : "Jonathon Carter",
+  "points" : 13969,
+  "cost" : 35.07,
+  "mobile" : false
+}, {
+  "date" : "2022-02-10",
+  "code" : "67127505",
+  "name" : "Jacinto Predovic",
+  "points" : 29697,
+  "cost" : 174.47,
+  "mobile" : true
+}, {
+  "date" : "2022-04-05",
+  "code" : "67105970",
+  "name" : "Catina Kuvalis",
+  "points" : 9148,
+  "cost" : 178.49,
+  "mobile" : true
+}, {
+  "date" : "2023-01-18",
+  "code" : "67124007",
+  "name" : "Denny D'Amore",
+  "points" : 24090,
+  "cost" : 339.93,
+  "mobile" : true
+}, {
+  "date" : "2023-03-10",
+  "code" : "67172276",
+  "name" : "Sheryll Romaguera",
+  "points" : 5304,
+  "cost" : 249.38,
+  "mobile" : true
+}, {
+  "date" : "2022-05-06",
+  "code" : "67148810",
+  "name" : "Tom Mayer",
+  "points" : 6808,
+  "cost" : 467.44,
+  "mobile" : true
+}, {
+  "date" : "2022-12-26",
+  "code" : "67198841",
+  "name" : "Deloras Prohaska",
+  "points" : 459,
+  "cost" : 29.56,
+  "mobile" : false
+}, {
+  "date" : "2022-12-25",
+  "code" : "67191685",
+  "name" : "Roselee Fay",
+  "points" : 27473,
+  "cost" : 258.24,
+  "mobile" : true
+}, {
+  "date" : "2023-03-05",
+  "code" : "67077427",
+  "name" : "Demetrius Reichel",
+  "points" : 19584,
+  "cost" : 296.41,
+  "mobile" : true
+}, {
+  "date" : "2022-11-30",
+  "code" : "67162248",
+  "name" : "Cameron Goodwin MD",
+  "points" : 27171,
+  "cost" : 99.87,
+  "mobile" : false
+}, {
+  "date" : "2022-01-02",
+  "code" : "67139217",
+  "name" : "Nicolas Miller",
+  "points" : 1126,
+  "cost" : 30.01,
+  "mobile" : false
+}, {
+  "date" : "2023-02-03",
+  "code" : "67096031",
+  "name" : "Evan Doyle III",
+  "points" : 25094,
+  "cost" : 141.7,
+  "mobile" : true
+}, {
+  "date" : "2023-03-27",
+  "code" : "67164228",
+  "name" : "Randee Simonis",
+  "points" : 19824,
+  "cost" : 245.93,
+  "mobile" : true
+}, {
+  "date" : "2023-07-13",
+  "code" : "67145779",
+  "name" : "Kiana Prohaska",
+  "points" : 18989,
+  "cost" : 31.61,
+  "mobile" : false
+}, {
+  "date" : "2022-06-07",
+  "code" : "67099778",
+  "name" : "Miss Maria Cummerata",
+  "points" : 29904,
+  "cost" : 140.26,
+  "mobile" : true
+}, {
+  "date" : "2023-03-30",
+  "code" : "67143622",
+  "name" : "Zackary Bogan",
+  "points" : 21584,
+  "cost" : 204.18,
+  "mobile" : true
+}, {
+  "date" : "2022-03-19",
+  "code" : "67055191",
+  "name" : "Rayford Altenwerth",
+  "points" : 12759,
+  "cost" : 21.36,
+  "mobile" : false
+}, {
+  "date" : "2023-02-21",
+  "code" : "67076283",
+  "name" : "Zackary Dibbert",
+  "points" : 5624,
+  "cost" : 105.49,
+  "mobile" : true
+}, {
+  "date" : "2023-01-21",
+  "code" : "67080254",
+  "name" : "Emely Borer",
+  "points" : 8316,
+  "cost" : 287.73,
+  "mobile" : true
+}, {
+  "date" : "2023-03-30",
+  "code" : "67199524",
+  "name" : "Tony Windler",
+  "points" : 18550,
+  "cost" : 159.54,
+  "mobile" : true
+}, {
+  "date" : "2023-05-29",
+  "code" : "67104852",
+  "name" : "Alonzo Doyle",
+  "points" : 579,
+  "cost" : 404.47,
+  "mobile" : true
+}, {
+  "date" : "2023-02-03",
+  "code" : "67130838",
+  "name" : "Bernard Armstrong",
+  "points" : 29342,
+  "cost" : 359.12,
+  "mobile" : true
+}, {
+  "date" : "2022-01-25",
+  "code" : "67121016",
+  "name" : "Keven Haag IV",
+  "points" : 6642,
+  "cost" : 256.36,
+  "mobile" : true
+}, {
+  "date" : "2022-07-30",
+  "code" : "67138882",
+  "name" : "Chantay Hintz",
+  "points" : 10104,
+  "cost" : 67.2,
+  "mobile" : false
+}, {
+  "date" : "2022-07-10",
+  "code" : "67005213",
+  "name" : "Fernanda Maggio",
+  "points" : 10741,
+  "cost" : 401.66,
+  "mobile" : true
+}, {
+  "date" : "2023-03-27",
+  "code" : "67117170",
+  "name" : "Santos Waelchi",
+  "points" : 29310,
+  "cost" : 310.29,
+  "mobile" : true
+}, {
+  "date" : "2023-06-01",
+  "code" : "67019035",
+  "name" : "Erick Bernhard V",
+  "points" : 26648,
+  "cost" : 455.32,
+  "mobile" : true
+}, {
+  "date" : "2022-12-21",
+  "code" : "67049023",
+  "name" : "Taina Zboncak",
+  "points" : 11002,
+  "cost" : 328.95,
+  "mobile" : true
+}, {
+  "date" : "2023-04-23",
+  "code" : "67152741",
+  "name" : "Julee Jerde",
+  "points" : 12725,
+  "cost" : 378.86,
+  "mobile" : true
+}, {
+  "date" : "2023-05-13",
+  "code" : "67017002",
+  "name" : "Ian O'Conner I",
+  "points" : 14258,
+  "cost" : 479.83,
+  "mobile" : true
+}, {
+  "date" : "2023-06-14",
+  "code" : "67037283",
+  "name" : "Horace Mohr",
+  "points" : 8374,
+  "cost" : 74.18,
+  "mobile" : false
+}, {
+  "date" : "2022-02-09",
+  "code" : "67023370",
+  "name" : "Ms. Ahmad Hammes",
+  "points" : 5810,
+  "cost" : 259.71,
+  "mobile" : true
+}, {
+  "date" : "2022-01-18",
+  "code" : "67166621",
+  "name" : "Miss Kristofer Gleichner",
+  "points" : 13383,
+  "cost" : 166.28,
+  "mobile" : true
+}, {
+  "date" : "2022-01-16",
+  "code" : "67041466",
+  "name" : "Anthony Emard DDS",
+  "points" : 27134,
+  "cost" : 203.12,
+  "mobile" : true
+}, {
+  "date" : "2022-05-13",
+  "code" : "67035789",
+  "name" : "Madalene Effertz MD",
+  "points" : 26382,
+  "cost" : 318.01,
+  "mobile" : true
+}, {
+  "date" : "2023-01-24",
+  "code" : "67069777",
+  "name" : "Pattie Thompson",
+  "points" : 23408,
+  "cost" : 94.42,
+  "mobile" : false
+}, {
+  "date" : "2022-10-17",
+  "code" : "67074449",
+  "name" : "Dr. Rena Nienow",
+  "points" : 20416,
+  "cost" : 345.27,
+  "mobile" : true
+}, {
+  "date" : "2023-06-05",
+  "code" : "67087518",
+  "name" : "Herlinda Bruen",
+  "points" : 2912,
+  "cost" : 433.87,
+  "mobile" : true
+}, {
+  "date" : "2022-01-21",
+  "code" : "67104014",
+  "name" : "Shantelle Pouros",
+  "points" : 2649,
+  "cost" : 136.11,
+  "mobile" : true
+}, {
+  "date" : "2022-04-13",
+  "code" : "67177936",
+  "name" : "Boris Brakus Jr.",
+  "points" : 7614,
+  "cost" : 402.31,
+  "mobile" : true
+}, {
+  "date" : "2023-05-10",
+  "code" : "67073652",
+  "name" : "Miss Tobias Breitenberg",
+  "points" : 1370,
+  "cost" : 277.22,
+  "mobile" : true
+}, {
+  "date" : "2023-01-03",
+  "code" : "67190737",
+  "name" : "Naoma Murphy",
+  "points" : 8049,
+  "cost" : 12.96,
+  "mobile" : false
+}, {
+  "date" : "2022-03-11",
+  "code" : "67149618",
+  "name" : "Bernie Gulgowski",
+  "points" : 2520,
+  "cost" : 256.27,
+  "mobile" : true
+}, {
+  "date" : "2023-05-01",
+  "code" : "67199676",
+  "name" : "Francina Torp",
+  "points" : 27547,
+  "cost" : 148.82,
+  "mobile" : true
+}, {
+  "date" : "2022-08-08",
+  "code" : "67011871",
+  "name" : "Teofila Swift",
+  "points" : 7053,
+  "cost" : 412.0,
+  "mobile" : true
+}, {
+  "date" : "2022-11-25",
+  "code" : "67191473",
+  "name" : "Ms. Moshe O'Connell",
+  "points" : 3680,
+  "cost" : 209.88,
+  "mobile" : true
+}, {
+  "date" : "2022-05-26",
+  "code" : "67098074",
+  "name" : "Justin Littel",
+  "points" : 18028,
+  "cost" : 154.25,
+  "mobile" : true
+}, {
+  "date" : "2023-04-26",
+  "code" : "67034295",
+  "name" : "Shameka Lakin",
+  "points" : 9671,
+  "cost" : 16.79,
+  "mobile" : false
+}, {
+  "date" : "2023-01-26",
+  "code" : "67095758",
+  "name" : "Myrle Corwin Sr.",
+  "points" : 6471,
+  "cost" : 362.73,
+  "mobile" : true
+}, {
+  "date" : "2022-01-26",
+  "code" : "67105385",
+  "name" : "Mrs. Carlton Reinger",
+  "points" : 201,
+  "cost" : 209.97,
+  "mobile" : true
+}, {
+  "date" : "2023-02-28",
+  "code" : "67083354",
+  "name" : "Jim Bergstrom",
+  "points" : 3152,
+  "cost" : 417.82,
+  "mobile" : true
+}, {
+  "date" : "2022-03-06",
+  "code" : "67142753",
+  "name" : "Sacha Goyette",
+  "points" : 15762,
+  "cost" : 329.97,
+  "mobile" : true
+}, {
+  "date" : "2022-05-24",
+  "code" : "67180294",
+  "name" : "Adrienne Feest",
+  "points" : 7870,
+  "cost" : 280.97,
+  "mobile" : true
+}, {
+  "date" : "2022-09-08",
+  "code" : "67155513",
+  "name" : "Major Cummerata Jr.",
+  "points" : 26103,
+  "cost" : 12.75,
+  "mobile" : false
+}, {
+  "date" : "2023-07-04",
+  "code" : "67144785",
+  "name" : "Stephany Rowe",
+  "points" : 21393,
+  "cost" : 174.05,
+  "mobile" : true
+}, {
+  "date" : "2022-07-28",
+  "code" : "67164072",
+  "name" : "Jina Kohler PhD",
+  "points" : 1364,
+  "cost" : 476.95,
+  "mobile" : true
+}, {
+  "date" : "2023-03-30",
+  "code" : "67131367",
+  "name" : "Stephnie Trantow",
+  "points" : 12190,
+  "cost" : 442.86,
+  "mobile" : true
+}, {
+  "date" : "2022-11-01",
+  "code" : "67131658",
+  "name" : "Chas Mitchell",
+  "points" : 15550,
+  "cost" : 160.75,
+  "mobile" : true
+}, {
+  "date" : "2023-07-15",
+  "code" : "67146628",
+  "name" : "Sherman Dietrich",
+  "points" : 26767,
+  "cost" : 436.45,
+  "mobile" : true
+}, {
+  "date" : "2022-06-09",
+  "code" : "67035858",
+  "name" : "Philip Metz",
+  "points" : 3957,
+  "cost" : 327.88,
+  "mobile" : true
+}, {
+  "date" : "2023-05-29",
+  "code" : "67069837",
+  "name" : "Pattie Lueilwitz",
+  "points" : 17906,
+  "cost" : 132.96,
+  "mobile" : true
+}, {
+  "date" : "2022-06-12",
+  "code" : "67069414",
+  "name" : "Jeffery Moore",
+  "points" : 3013,
+  "cost" : 357.38,
+  "mobile" : true
+}, {
+  "date" : "2023-04-04",
+  "code" : "67014993",
+  "name" : "Prudence Schinner",
+  "points" : 20346,
+  "cost" : 285.67,
+  "mobile" : true
+}, {
+  "date" : "2022-02-07",
+  "code" : "67185306",
+  "name" : "Yun Ryan Jr.",
+  "points" : 12682,
+  "cost" : 167.28,
+  "mobile" : true
+}, {
+  "date" : "2023-05-16",
+  "code" : "67036164",
+  "name" : "Maryanne Fadel",
+  "points" : 17871,
+  "cost" : 405.45,
+  "mobile" : true
+}, {
+  "date" : "2022-06-24",
+  "code" : "67104505",
+  "name" : "Eneida Green",
+  "points" : 20013,
+  "cost" : 304.05,
+  "mobile" : true
+}, {
+  "date" : "2022-08-26",
+  "code" : "67196985",
+  "name" : "Sang Zulauf",
+  "points" : 29181,
+  "cost" : 12.07,
+  "mobile" : false
+}, {
+  "date" : "2022-12-11",
+  "code" : "67105093",
+  "name" : "Francisco Grant",
+  "points" : 19411,
+  "cost" : 71.78,
+  "mobile" : false
+}, {
+  "date" : "2022-06-27",
+  "code" : "67060972",
+  "name" : "Mrs. Marcelino Reichert",
+  "points" : 3,
+  "cost" : 308.51,
+  "mobile" : true
+}, {
+  "date" : "2022-07-14",
+  "code" : "67190286",
+  "name" : "Riley Doyle",
+  "points" : 25043,
+  "cost" : 389.4,
+  "mobile" : true
+}, {
+  "date" : "2022-04-16",
+  "code" : "67086063",
+  "name" : "Dr. Cleveland Lueilwitz",
+  "points" : 23955,
+  "cost" : 394.13,
+  "mobile" : true
+} ]

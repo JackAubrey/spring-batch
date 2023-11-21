@@ -11,15 +11,17 @@ import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import java.time.LocalDateTime;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-@Configuration
+// disabled in this branch. we will use the UpdateSoldJob
+//@Configuration
 public class ScheduledJob {
+    private static final Logger logger = getLogger(ScheduledJob.class);
+
     @Bean
     public Job job(JobRepository jobRepository, Step scheduledStep) {
         return new JobBuilder("scheduled-job", jobRepository)
@@ -31,7 +33,6 @@ public class ScheduledJob {
     public Step scheduledStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("scheduled-step", jobRepository)
                 .tasklet( new Tasklet() {
-                    private static final Logger logger = getLogger(ScheduledJob.class);
 
                     @Override
                     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {

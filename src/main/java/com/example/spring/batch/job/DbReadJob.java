@@ -3,7 +3,6 @@ package com.example.spring.batch.job;
 import com.example.spring.batch.job.db.mapper.CustomerRowMapper;
 import com.example.spring.batch.job.model.Cliente;
 import com.example.spring.batch.job.model.Cliente2;
-import org.slf4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -22,7 +21,6 @@ import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -32,12 +30,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.slf4j.LoggerFactory.getLogger;
-
 // disabled in this branch. we will use the ScheduledJob to study a job executed via cron
 //@Configuration
 public class DbReadJob {
-    private static final Logger logger = getLogger(DbReadJob.class);
     private static final int PAGE_SIZE = 5;
 
     private static final String INSERT_CUSTOMER_SQL = "INSERT INTO CLIENTI2 (CodFid, Nominativo, Comune, Stato, Bollini, Tipo) " +
@@ -61,7 +56,7 @@ public class DbReadJob {
                 .processor(compositeItemProcessor())
                     .faultTolerant()
                     .skip(CodeNotValidException.class)
-                    .skipLimit(3) // in order to simulate this case, modify 3 data on th Customer table
+                    .skipLimit(3) // in order to simulate this case, modify 3 data on th Sales table
                     .listener(new CustomSkipListener())
                     .retry(IOException.class)
                     .retryLimit(3)

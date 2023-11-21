@@ -1,14 +1,15 @@
 package com.example.spring.batch.job;
 
+import com.example.spring.batch.app.AppRuntimeException;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.Date;
 
-@Configuration
+// disabled in this branch. we will use the UpdateSoldJob
+//@Configuration
 public class ScheduledJobLauncher {
     private final JobLauncher launcher;
     private final Job job;
@@ -28,7 +29,7 @@ public class ScheduledJobLauncher {
         try {
             launcher.run(job, parametersBuilder.toJobParameters());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new AppRuntimeException(e);
         }
     }
 }
