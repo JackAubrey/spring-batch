@@ -22,16 +22,16 @@ public class FileHandlingJobExecutionListenerImpl implements FileHandlingJobExec
     public void beforeJob(JobExecution jobExecution) {
         String sUploadFilePath = jobExecution.getJobParameters().getString(AppConstants.UPLOAD_FILE_PATH);
         String sInputPath = jobExecution.getJobParameters().getString(AppConstants.INPUT_PATH);
-        String sOutputFileName = jobExecution.getJobParameters().getString(AppConstants.INPUT_FILE_NAME);
+        String sInputFileName = jobExecution.getJobParameters().getString(AppConstants.INPUT_FILE_NAME);
         Assert.hasText(sUploadFilePath, "The Upload path can not be null or empty");
         Assert.hasText(sInputPath, "The Input path can not be null or empty");
-        Assert.hasText(sOutputFileName, "The Output file-name can not be null or empty");
+        Assert.hasText(sInputFileName, "The Input file-name can not be null or empty");
 
         log.info("BeforeJob | try to move the uploaded file [{}] to input destination [{}]", sUploadFilePath, sInputPath);
 
         Path uploadPath = Paths.get(sUploadFilePath);
         Path inputPath = Paths.get(sInputPath);
-        Path destination = inputPath.resolve(sOutputFileName);
+        Path destination = inputPath.resolve(sInputFileName);
 
         if( !Files.exists(uploadPath) || !Files.isRegularFile(uploadPath) ) {
             throw new IllegalArgumentException("the uploaded file ["+uploadPath+"] not exits or is not a file");
@@ -53,13 +53,13 @@ public class FileHandlingJobExecutionListenerImpl implements FileHandlingJobExec
     public void afterJob(JobExecution jobExecution) {
         String sInputPath = jobExecution.getJobParameters().getString(AppConstants.INPUT_PATH);
         String sErrorPath = jobExecution.getJobParameters().getString(AppConstants.ERROR_PATH);
-        String sOutputFileName = jobExecution.getJobParameters().getString(AppConstants.INPUT_FILE_NAME);
+        String sInputFileName = jobExecution.getJobParameters().getString(AppConstants.INPUT_FILE_NAME);
         Assert.hasText(sErrorPath, "The Error path can not be null or empty ");
         Assert.hasText(sInputPath, "The Input path can not be null or empty ");
-        Assert.hasText(sOutputFileName, "The Output file-name can not be null or empty ");
+        Assert.hasText(sInputFileName, "The Input file-name can not be null or empty ");
 
         Path inputPath = Paths.get(sInputPath);
-        Path destination = inputPath.resolve(sOutputFileName);
+        Path destination = inputPath.resolve(sInputFileName);
 
         log.info("AfterJob | try to delete the input file [{}]", destination);
 
@@ -71,7 +71,7 @@ public class FileHandlingJobExecutionListenerImpl implements FileHandlingJobExec
             }
         } else {
             log.warn("AfterJob | Unable to delete the input file ["+sInputPath+"] because the job is not completed");
-            File errorPath = new File(sErrorPath);
+            File errorPath = new File(sErrorPath, sInputFileName);
 
             try {
                 FileUtils.moveFile(destination.toFile(), errorPath);

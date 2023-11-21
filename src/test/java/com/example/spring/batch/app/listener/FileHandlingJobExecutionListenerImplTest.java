@@ -54,7 +54,7 @@ class FileHandlingJobExecutionListenerImplTest {
     }
 
     @Test
-    void testBeforeJobFail_when_input_file_is_not_set() {
+    void testBeforeJobFail_when_input_path_is_not_set() {
         // given
         JobInstance jobInstance = new JobInstance(1L, "foo-job" );
         JobParameters params = new JobParametersBuilder()
@@ -70,7 +70,7 @@ class FileHandlingJobExecutionListenerImplTest {
     }
 
     @Test
-    void testBeforeJobFail_when_input_file_is_empty() {
+    void testBeforeJobFail_when_input_path_is_not_empty() {
         // given
         JobInstance jobInstance = new JobInstance(1L, "foo-job" );
         JobParameters params = new JobParametersBuilder()
@@ -87,7 +87,7 @@ class FileHandlingJobExecutionListenerImplTest {
     }
 
     @Test
-    void testBeforeJobFail_when_output_filename_is_not_set() {
+    void testBeforeJobFail_when_input_filename_is_not_set() {
         // given
         JobInstance jobInstance = new JobInstance(1L, "foo-job" );
         JobParameters params = new JobParametersBuilder()
@@ -100,11 +100,11 @@ class FileHandlingJobExecutionListenerImplTest {
         String errMsg = assertThrows( IllegalArgumentException.class, () -> listener.beforeJob(execution)).getLocalizedMessage();
 
         // then
-        assertEquals("The Output file-name can not be null or empty", errMsg);
+        assertEquals("The Input file-name can not be null or empty", errMsg);
     }
 
     @Test
-    void testBeforeJobFail_when_output_filename_is_empty() {
+    void testBeforeJobFail_when_input_filename_is_empty() {
         // given
         JobInstance jobInstance = new JobInstance(1L, "foo-job" );
         JobParameters params = new JobParametersBuilder()
@@ -118,7 +118,7 @@ class FileHandlingJobExecutionListenerImplTest {
         String errMsg = assertThrows( IllegalArgumentException.class, () -> listener.beforeJob(execution)).getLocalizedMessage();
 
         // then
-        assertEquals("The Output file-name can not be null or empty", errMsg);
+        assertEquals("The Input file-name can not be null or empty", errMsg);
     }
 
     @Test
