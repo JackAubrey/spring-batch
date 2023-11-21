@@ -1,6 +1,7 @@
 package com.example.spring.batch.app.config;
 
 import com.example.spring.batch.app.listener.FileHandlingJobExecutionListener;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -43,6 +44,7 @@ class UpdateSoldJobTest {
     @BeforeEach
     public void setUp() {
         this.jobRepositoryTestUtils.removeJobExecutions();
+        FileUtils.deleteQuietly(new File(inputPath, inputPath));
     }
 
     @Test
@@ -61,6 +63,29 @@ class UpdateSoldJobTest {
         assertEquals(BatchStatus.COMPLETED, execution.getStatus());
         String fileContent = contentOf(new File(outputPath, inputFile));
         assertTrue(fileContent.contains("John Stoltenberg I"));
+        assertFalse(fileContent.contains("CLIENTE NON FIDELITY"));
+
+        Mockito.verify(listener).beforeJob(execution);
+        Mockito.verify(listener).afterJob(execution);
+    }
+
+    @Test
+    void testAnonymize() throws Exception {
+        JobParameters parameters = new JobParametersBuilder()
+                .addString(INPUT_PATH, inputPath)
+                .addString(INPUT_FILE_NAME, inputFile)
+                .addString(OUTPUT_PATH, outputPath)
+                .addString(UPLOAD_FILE_PATH, uploadFilePath)
+                .addString(ERROR_PATH, errorPath)
+                .addString(ANONYMIZE_DATA, "true")
+                .toJobParameters();
+
+        JobExecution execution = jobLauncherTestUtils.launchJob(parameters);
+
+        assertEquals(BatchStatus.COMPLETED, execution.getStatus());
+        String fileContent = contentOf(new File(outputPath, inputFile));
+        assertTrue(fileContent.contains("J.S.I."));
+        assertFalse(fileContent.contains("John Stoltenberg I"));
         assertFalse(fileContent.contains("CLIENTE NON FIDELITY"));
 
         Mockito.verify(listener).beforeJob(execution);

@@ -3,6 +3,7 @@ package com.example.spring.batch.app.config;
 import com.example.spring.batch.app.AppConstants;
 import com.example.spring.batch.app.listener.FileHandlingJobExecutionListener;
 import com.example.spring.batch.app.model.Sales;
+import com.example.spring.batch.app.util.NameAnonymizer;
 import com.example.spring.batch.app.validator.AppJobParametersValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -94,7 +95,8 @@ public class UpdateSoldJob {
             if(StringUtils.isNotBlank(anonymize) &&
                     "true".equalsIgnoreCase(anonymize.trim()) ) {
                 log.info("ItemProcessor | Anonymizing | going to anonymize data | CodFid {}", input.getCode());
-                output.setName(input.getName().trim().replaceAll("\\w", "X"));
+                String anonymized = NameAnonymizer.anonymize(input.getName());
+                output.setName(anonymized);
             } else {
                 log.info("ItemProcessor | Anonymizing | not required | CodFid {}", input.getCode());
                 output.setName(input.getName().trim());
@@ -105,7 +107,7 @@ public class UpdateSoldJob {
             output.setDate(input.getDate());
             output.setMobile(input.isMobile());
 
-            return input;
+            return output;
         };
     }
 
